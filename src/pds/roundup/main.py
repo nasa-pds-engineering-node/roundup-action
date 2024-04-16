@@ -56,7 +56,7 @@ def _parseArgs():
     group.add_argument('--maven-build-phases', help='👷‍ Build (%(default)s)', default='compile')
     group.add_argument(
         '--maven-stable-artifact-phases',
-        help='😌 Stable artifacts (%(default)s)', default='clean,deploy'
+        help='😌 Stable artifacts (%(default)s)', default='clean,package,site,deploy'
     )
     group.add_argument(
         '--maven-unstable-artifact-phases',
