@@ -146,6 +146,12 @@ class _PreparationStep(Step):
         with open(settings, 'wb') as out:
             tree.write(out, encoding='utf-8', xml_declaration=True, pretty_print=True)
 
+        _logger.info('🚨 Here: the .m2 settings!!!')
+        with open(settings, 'r') as io:
+            for line in io:
+                _logger.info(line)
+        _logger.info('🚨 Hope that helped!!!')
+
     def _createKeyring(self):
         '''Make a GPG keyring we can later use for signing artifacts'''
         container, keyVarName = os.path.join(_homeDir, '.gnupg'), 'CODE_SIGNING_KEY'
