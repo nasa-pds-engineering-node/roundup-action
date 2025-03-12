@@ -8,7 +8,7 @@ from .errors import MissingEnvVarError
 from .step import ChangeLogStep as BaseChangeLogStep
 from .step import Step, StepName, NullStep, RequirementsStep, DocPublicationStep
 from .util import invoke, invokeGIT, TAG_RE, commit, delete_tags, git_config, add_version_label_to_open_bugs
-from lasso.releasers._python_version import TextFileDetective
+from ._detectives import TextFileDetective
 import logging, os, re, shutil
 
 _logger = logging.getLogger(__name__)
