@@ -42,7 +42,9 @@ RUN : &&\
     : the packaging package too &&\
     python3 -m venv /usr/src/req &&\
     /usr/src/req/bin/pip install --quiet --upgrade pip &&\
-    /usr/src/req/bin/pip install --quiet packaging~=24.2 &&\
+    : Do not upgrade packaging past v20 as requirement-report 1.0.0 does not work with newer versions &&\
+    : And YES, lasso.requirements should declare its own dependencies &&\
+    /usr/src/req/bin/pip install --quiet packaging~=20.9 &&\
     /usr/src/req/bin/pip install --quiet lasso.requirements~=${lasso_requirements} &&\
     ln -s /usr/src/req/bin/requirement-report /usr/local/bin &&\
     : &&\
