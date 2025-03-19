@@ -84,6 +84,17 @@ class _UnitTestStep(_PythonStep):
     def execute(self):
         _logger.debug('Python unit test step')
         tox = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin', 'tox'))
+
+        _logger.warning('🫣 unit test trying pip list')
+        invoke(['/github/workspace/venv/bin/pip', 'list'])
+        _logger.warning('🫣 unit test showing the site-packages')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
+        _logger.warning('🫣 unit test showing the site-packages/pds')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages/pds'])
+        _logger.warning('🫣 unit test trying import')
+        invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
+        _logger.warning('🫣 unit test import done')
+
         if os.path.isfile(tox):
             _logger.debug('Trying the new way: ``tox``')
             invoke([tox, '-e', 'py39'])  # ``py39`` = unit tests
