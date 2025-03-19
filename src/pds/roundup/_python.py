@@ -107,6 +107,9 @@ class _DocsStep(_PythonStep):
         invoke(['pwd'])
         invoke(['ls', '-l', '/github/workspace/src'])
         os.environ['PYTHONPATH'] = '/github/workspace/src'
+        _logger.warning('🫣 trying import')
+        invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
+        _logger.warning('🫣 import done')
         try:
             _logger.warning('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
             invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
