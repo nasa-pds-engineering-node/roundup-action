@@ -68,14 +68,14 @@ class _PreparationStep(_PythonStep):
         # Do the pseudo-equivalent of ``activate``:
         venvBin = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin'))
         os.environ['PATH'] = f'{venvBin}:{os.environ["PATH"]}'
-        _logger.warning('🫣 Here is what is in venvBin:')
-        invoke(['ls', venvBin])
-        _logger.warning('🫣  got that?')
         # Make sure we have the latest of pip+setuptools+wheel
         invoke(['pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
         # Now install the package being rounded up … it should install its own sphinx-build, but if
         # not we'll use our own older version (3.2.1 according to github-actions-base)
         invoke(['pip', 'install', '--editable', '.[dev]'])
+        _logger.warning('🫣 Here is what is in venvBin:')
+        invoke(['ls', venvBin])
+        _logger.warning('🫣  got that?')
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
 
 
@@ -104,11 +104,13 @@ class _DocsStep(_PythonStep):
     '''A step that uses Sphinx to generate documentation'''
     def execute(self):
         try:
-            _logger.warning('🫣  About to do `sphinx-build` using the PATH = %s', os.getenv('PATH'))
-            invoke(['sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
+            _logger.warning('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
+            invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
+            invoke(['/github/workspace/venv/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
         except InvokedProcessError as ex:
             _logger.warning('🫣  Got an InvokedProcessError %r, so doing /usr/local/bin/sphinx-build', ex)
             try:
+                invoke(['/usr/local/bin/sphinx-build', '--version'])
                 invoke(['/usr/local/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
             except InvokedProcessError:
                 _logger.exception('🚫🐈 Could not execute either kind of sphinx-build, so carrying on')
