@@ -110,7 +110,7 @@ class _DocsStep(_PythonStep):
             _logger.warning('🫣  Got an InvokedProcessError %r, so doing /usr/local/bin/sphinx-build', ex)
             try:
                 invoke(['/usr/local/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
-            except InvokedProcessError
+            except InvokedProcessError:
                 _logger.exception('🚫🐈 Could not execute either kind of sphinx-build, so carrying on')
 
 
