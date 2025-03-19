@@ -103,6 +103,10 @@ class _IntegrationTestStep(_PythonStep):
 class _DocsStep(_PythonStep):
     '''A step that uses Sphinx to generate documentation'''
     def execute(self):
+        _logger.warning('🫣 more straws')
+        invoke(['pwd'])
+        invoke(['ls', '-l'])
+        os.environ['PYTHONPATH'] = '/github/workspace/src'
         try:
             _logger.warning('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
             invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
