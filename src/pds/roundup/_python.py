@@ -61,7 +61,6 @@ class _PreparationStep(_PythonStep):
     '''Prepare the python repository for action.'''
     def execute(self):
         _logger.debug('Python preparation step set to fail')
-        raise ValueError("💣 Something's not quite right")
         git_config()
         shutil.rmtree('venv', ignore_errors=True)
         # We add access to system site packages so that projects can save time if they need numpy, pandas, etc.
