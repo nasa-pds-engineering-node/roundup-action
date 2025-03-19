@@ -105,7 +105,7 @@ class _DocsStep(_PythonStep):
     def execute(self):
         _logger.warning('🫣 more straws')
         invoke(['pwd'])
-        invoke(['ls', '-l'])
+        invoke(['ls', '-l', '/github/workspace/src'])
         os.environ['PYTHONPATH'] = '/github/workspace/src'
         try:
             _logger.warning('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
