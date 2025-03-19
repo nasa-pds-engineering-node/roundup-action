@@ -107,6 +107,8 @@ class _DocsStep(_PythonStep):
         invoke(['pwd'])
         invoke(['ls', '-l', '/github/workspace/src'])
         os.environ['PYTHONPATH'] = '/github/workspace/src'
+        _logger.warning('🫣 trying pip list')
+        invoke(['/github/workspace/venv/bin/pip', 'list'])
         _logger.warning('🫣 trying import')
         invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
         _logger.warning('🫣 import done')
