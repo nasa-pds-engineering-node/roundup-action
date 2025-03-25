@@ -77,6 +77,15 @@ class _PreparationStep(_PythonStep):
         invoke(['ls', venvBin])
         _logger.warning('🫣  got that?')
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
+        _logger.warning('🫣 preparation trying pip list')
+        invoke(['/github/workspace/venv/bin/pip', 'list'])
+        _logger.warning('🫣 preparation showing the site-packages')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
+        _logger.warning('🫣 preparation showing the site-packages/pds')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages/pds'])
+        _logger.warning('🫣 preparation trying import')
+        invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
+        _logger.warning('🫣 preparation import done')
 
 
 class _UnitTestStep(_PythonStep):
