@@ -72,6 +72,10 @@ class _PreparationStep(_PythonStep):
         invoke(['pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
         # Now install the package being rounded up … it should install its own sphinx-build, but if
         # not we'll use our own older version (3.2.1 according to github-actions-base)
+        _logger.warning('🫣 What is even here before pip install')
+        invoke(['pwd'])
+        invoke(['ls', '-l'])
+        _logger.warning('🫣 ok now pip install')
         invoke(['pip', 'install', '--editable', '.[dev]'])
         _logger.warning('🫣 Here is what is in venvBin:')
         invoke(['ls', venvBin])
