@@ -84,6 +84,8 @@ class _PreparationStep(_PythonStep):
         invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
         _logger.warning('🫣 the __editable__ file')
         invoke(['cat', '/github/workspace/venv/lib/python3.9/site-packages/__editable__.pds_notpeppi-6.12.0.pth'])
+        _logger.warning('🫣 assuming it contains /github/workspace/src let us see what is in there')
+        invoke('ls', '-l', '/github/workspace/src')
         _logger.warning('🫣 preparation trying import')
         invoke(['/github/workspace/venv/bin/python3', '-c', 'from pds import peppi'])
         _logger.warning('🫣 preparation import done')
