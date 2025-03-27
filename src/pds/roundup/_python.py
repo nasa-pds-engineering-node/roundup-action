@@ -72,31 +72,7 @@ class _PreparationStep(_PythonStep):
         invoke(['/github/workspace/venv/bin/pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
         # Now install the package being rounded up … it should install its own sphinx-build, but if
         # not we'll use our own older version (3.2.1 according to github-actions-base)
-        _logger.warning('🫣 What is even here before pip install')
-        invoke(['pwd'])
-        invoke(['ls', '-l'])
-
-        _logger.warning('🫣 venv site-packages BEFORE pip install')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
-        _logger.warning('🫣 global site-packages BEFORE pip install')
-        invoke(['ls', '/usr/local/lib/python3.9/site-packages'])
-        _logger.warning('🫣 now pip install using the venv pip directly')
-        invoke(['/github/workspace/venv/bin/pip', 'install', '--verbose', '--editable', '.[dev]'])
-        _logger.warning('🫣 venv site-packages AFTER pip install')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
-        _logger.warning('🫣 global site-packages AFTER pip install')
-        invoke(['ls', '/usr/local/lib/python3.9/site-packages'])
-
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
-        _logger.warning('🫣 preparation trying pip list')
-        invoke(['/github/workspace/venv/bin/pip', 'list'])
-        _logger.warning('🫣 the __editable__ file')
-        invoke(['cat', '/github/workspace/venv/lib/python3.9/site-packages/__editable__.pds_notpeppi-6.12.0.pth'])
-        _logger.warning('🫣 assuming it contains /github/workspace/src let us see what is in there')
-        invoke(['ls', '-l', '/github/workspace/src'])
-        _logger.warning('🫣 preparation trying import')
-        invoke(['/github/workspace/venv/bin/python3', '-c', 'from pds import peppi'])
-        _logger.warning('🫣 preparation import done')
 
 
 class _UnitTestStep(_PythonStep):
@@ -104,16 +80,6 @@ class _UnitTestStep(_PythonStep):
     def execute(self):
         _logger.debug('Python unit test step')
         tox = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin', 'tox'))
-
-        _logger.warning('🫣 unit test trying pip list')
-        invoke(['/github/workspace/venv/bin/pip', 'list'])
-        _logger.warning('🫣 unit test showing the site-packages')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
-        _logger.warning('🫣 unit test showing the site-packages/pds')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages/pds'])
-        _logger.warning('🫣 unit test trying import')
-        invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
-        _logger.warning('🫣 unit test import done')
 
         if os.path.isfile(tox):
             _logger.debug('Trying the new way: ``tox``')
@@ -134,25 +100,12 @@ class _IntegrationTestStep(_PythonStep):
 class _DocsStep(_PythonStep):
     '''A step that uses Sphinx to generate documentation'''
     def execute(self):
-        _logger.warning('🫣 more straws')
-        invoke(['pwd'])
-        invoke(['ls', '-l', '/github/workspace/src'])
-        os.environ['PYTHONPATH'] = '/github/workspace/src'
-        _logger.warning('🫣 trying pip list')
-        invoke(['/github/workspace/venv/bin/pip', 'list'])
-        _logger.warning('🫣 showing the site-packages')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
-        _logger.warning('🫣 showing the site-packages/pds')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages/pds'])
-        _logger.warning('🫣 trying import')
-        invoke(['/github/workspace/venv/bin/python3', '-c', 'import pds.peppi'])
-        _logger.warning('🫣 import done')
         try:
-            _logger.warning('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
+            _logger.info('🫣  About to do `/githun/workspace/venv/bin/sphinx-build`')
             invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
             invoke(['/github/workspace/venv/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
         except InvokedProcessError as ex:
-            _logger.warning('🫣  Got an InvokedProcessError %r, so doing /usr/local/bin/sphinx-build', ex)
+            _logger.info('🫣  Got an InvokedProcessError %r, so doing /usr/local/bin/sphinx-build', ex)
             try:
                 invoke(['/usr/local/bin/sphinx-build', '--version'])
                 invoke(['/usr/local/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
