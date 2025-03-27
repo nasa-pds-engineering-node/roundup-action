@@ -1,7 +1,7 @@
 # 🤠 PDS Engineering: Roundup
 # ============================
 
-FROM nasapds/github-actions-base:sphinxless
+FROM nasapds/github-actions-base:stable
 
 
 # Metadata
