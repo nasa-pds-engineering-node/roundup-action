@@ -75,8 +75,8 @@ class _PreparationStep(_PythonStep):
         _logger.warning('🫣 What is even here before pip install')
         invoke(['pwd'])
         invoke(['ls', '-l'])
-        _logger.warning('🫣 ok now pip install')
-        invoke(['pip', 'install', '--editable', '.[dev]'])
+        _logger.warning('🫣 ok now pip install with verbose')
+        invoke(['pip', 'install', '--editable', '--verbose', '.[dev]'])
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
         _logger.warning('🫣 preparation trying pip list')
         invoke(['/github/workspace/venv/bin/pip', 'list'])
