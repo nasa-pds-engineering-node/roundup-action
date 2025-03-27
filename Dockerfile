@@ -25,7 +25,7 @@ ENV lasso_issues=1.3.1
 WORKDIR    /usr/src/roundup
 COPY       README.md CHANGELOG.md LICENSE.txt setup.cfg setup.py ./
 COPY       src/ ./src
-ENTRYPOINT ["/usr/local/bin/roundup"]
+ENTRYPOINT ["/usr/src/roundup-venv/bin/roundup"]
 
 RUN : &&\
     : Set up each dependency in its own venv and symlink the bins into /usr/local/bin &&\
@@ -58,5 +58,6 @@ RUN : &&\
     ln -s /usr/src/iss/bin/pds-labels /usr/local/bin &&\
     : &&\
     : Now install the Roundup Action &&\
-    pip install --quiet /usr/src/roundup &&\
+    python3 -m venv /usr/src/roundup-venv &&\
+    /usr/src/roundup-venv/bin/pip install --quiet /usr/src/roundup &&\
     :
