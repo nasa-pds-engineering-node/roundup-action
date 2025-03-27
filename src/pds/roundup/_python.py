@@ -69,19 +69,28 @@ class _PreparationStep(_PythonStep):
         venvBin = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin'))
         os.environ['PATH'] = f'{venvBin}:{os.environ["PATH"]}'
         # Make sure we have the latest of pip+setuptools+wheel
-        invoke(['pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
+        invoke(['/github/workspace/venv/bin/pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
         # Now install the package being rounded up … it should install its own sphinx-build, but if
         # not we'll use our own older version (3.2.1 according to github-actions-base)
         _logger.warning('🫣 What is even here before pip install')
         invoke(['pwd'])
         invoke(['ls', '-l'])
-        _logger.warning('🫣 ok now pip install with verbose')
-        invoke(['pip', 'install', '--verbose', '--editable', '.[dev]'])
+
+        _logger.warning('🫣 venv site-packages BEFORE pip install')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
+        _logger.warning('🫣 global site-packages BEFORE pip install')
+        invoke(['ls', '/usr/local/lib/python3.9/site-packages'])
+        _logger.warning('🫣 now pip install using the venv pip directly')
+        invoke(['/github/workspace/venv/bin/pip', 'install', '--verbose', '--editable', '.[dev]'])
+        _logger.warning('🫣 venv site-packages AFTER pip install')
+        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
+        _logger.warning('🫣 global site-packages AFTER pip install')
+        invoke(['ls', '/usr/local/lib/python3.9/site-packages'])
+
+
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
         _logger.warning('🫣 preparation trying pip list')
         invoke(['/github/workspace/venv/bin/pip', 'list'])
-        _logger.warning('🫣 preparation showing the site-packages')
-        invoke(['ls', '/github/workspace/venv/lib/python3.9/site-packages'])
         _logger.warning('🫣 the __editable__ file')
         invoke(['cat', '/github/workspace/venv/lib/python3.9/site-packages/__editable__.pds_notpeppi-6.12.0.pth'])
         _logger.warning('🫣 assuming it contains /github/workspace/src let us see what is in there')
