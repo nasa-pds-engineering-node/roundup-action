@@ -79,6 +79,7 @@ class _UnitTestStep(_PythonStep):
     '''Unit test step, duh.'''
     def execute(self):
         _logger.debug('Python unit test step')
+        invoke(['ls', '-l', os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin'))])
         tox = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin', 'tox'))
 
         if os.path.isfile(tox):
