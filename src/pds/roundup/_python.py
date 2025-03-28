@@ -72,6 +72,7 @@ class _PreparationStep(_PythonStep):
         invoke(['/github/workspace/venv/bin/pip', 'install', '--quiet', '--upgrade', 'pip', 'setuptools', 'wheel'])
         # Now install the package being rounded up … it should install its own sphinx-build, but if
         # not we'll use our own older version (3.2.1 according to github-actions-base)
+        invoke(['/github/workspace/venv/bin/pip', 'install', '--verbose', '--editable', '.[dev]'])
         # ☑️ TODO: what other prep steps are there? What about VERSION.txt overwriting?
 
 
