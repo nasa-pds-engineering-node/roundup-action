@@ -80,7 +80,6 @@ class _UnitTestStep(_PythonStep):
     '''Unit test step, duh.'''
     def execute(self):
         _logger.debug('Python unit test step')
-        invoke(['ls', '-l', os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin'))])
         tox = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin', 'tox'))
 
         if os.path.isfile(tox):
@@ -239,6 +238,8 @@ class _ArtifactPublicationStep(_PythonStep):
     def execute(self):
         # 😮 TODO: It'd be more secure to use PyPI access tokens instead of usernames and passwords!
 
+        _logger.warning('WHAT VERSION OF TWINE IS THIS?')
+        invoke(['/usr/local/bin/twine', '--version'])
         argv = [
             '/usr/local/bin/twine',
             'upload',
