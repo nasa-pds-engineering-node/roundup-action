@@ -48,7 +48,7 @@ RUN : &&\
     /usr/src/req/bin/pip install --quiet lasso.requirements~=${lasso_requirements} &&\
     ln -s /usr/src/req/bin/requirement-report /usr/local/bin &&\
     : &&\
-    : Finally lasso.issues &&\
+    : Now lasso.issues &&\
     python3 -m venv /usr/src/iss &&\
     /usr/src/iss/bin/pip install --quiet lasso.issues~=${lasso_issues} &&\
     ln -s /usr/src/iss/bin/add-version-label-to-open-bugs /usr/local/bin &&\
@@ -56,6 +56,11 @@ RUN : &&\
     ln -s /usr/src/iss/bin/move-issues /usr/local/bin &&\
     ln -s /usr/src/iss/bin/pds-issues /usr/local/bin &&\
     ln -s /usr/src/iss/bin/pds-labels /usr/local/bin &&\
+    : &&\
+    : Now twine which must be version 6.0.1 since older ones do not work with PyPI and newer ones are buggy &&\
+    python3 -m venv /usr/src/twine &&\
+    /usr/src/twine/bin/pip install --quiet twine==6.0.1 &&\
+    ln -s /usr/src/twine/bin/twine /usr/local/bin &&\
     : &&\
     : Now install the Roundup Action &&\
     python3 -m venv /usr/src/roundup-venv &&\
