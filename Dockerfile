@@ -60,6 +60,7 @@ RUN : &&\
     : Now twine which must be version 6.0.1 since older ones do not work with PyPI and newer ones are buggy &&\
     python3 -m venv /usr/src/twine &&\
     /usr/src/twine/bin/pip install --quiet twine==6.0.1 &&\
+    rm -f /usr/local/bin/twine &&\
     ln -s /usr/src/twine/bin/twine /usr/local/bin &&\
     : &&\
     : Now install the Roundup Action &&\
