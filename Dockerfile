@@ -1,7 +1,7 @@
 # 🤠 PDS Engineering: Roundup
 # ============================
 
-FROM nasapds/github-actions-base:stable
+FROM nasapds/github-actions-base:python3.13
 
 
 # Metadata
@@ -56,12 +56,6 @@ RUN : &&\
     ln -s /usr/src/iss/bin/move-issues /usr/local/bin &&\
     ln -s /usr/src/iss/bin/pds-issues /usr/local/bin &&\
     ln -s /usr/src/iss/bin/pds-labels /usr/local/bin &&\
-    : &&\
-    : Now twine which must be version 6.0.1 since older ones do not work with PyPI and newer ones are buggy &&\
-    python3 -m venv /usr/src/twine &&\
-    /usr/src/twine/bin/pip install --quiet twine==6.0.1 &&\
-    rm -f /usr/local/bin/twine &&\
-    ln -s /usr/src/twine/bin/twine /usr/local/bin &&\
     : &&\
     : Now install the Roundup Action &&\
     python3 -m venv /usr/src/roundup-venv &&\
