@@ -41,7 +41,7 @@ RUN : &&\
     ln -s /usr/src/rel/bin/python-release /usr/local/bin &&\
     ln -s /usr/src/rel/bin/snapshot-release /usr/local/bin &&\
     : &&\
-    : Next, lasso.requirements, which for some reason needs an upgraded pip AND ALSO cannot use system-site-packages 
+    : Next, lasso.requirements, which for some reason needs an upgraded pip AND ALSO cannot use system-site-packages &&\
     : because Sphinx 8.2.3 in the base image requires packaging ≥ 23.0 and lasso-requirements needs packaging ≅ 20.9 &&\
     python3 -m venv /usr/src/req &&\
     /usr/src/req/bin/pip install --quiet --upgrade pip &&\
