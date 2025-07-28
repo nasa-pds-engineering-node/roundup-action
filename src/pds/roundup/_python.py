@@ -103,15 +103,13 @@ class _DocsStep(_PythonStep):
             _logger.info('🫣  About to do `/github/workspace/venv/bin/sphinx-build`')
             invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
             invoke(['/github/workspace/venv/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
-        except FileNotFoundError:
-            _logger.info('🤔 file not found, what do we have?')
-            invoke(['ls', '-l', '/github/workspace/venv/bin'])
-            raise
         except (InvokedProcessError, FileNotFoundError) as ex:
+            # For some reason, my test repo install a sphinx-build (and all its brethren) in the venv,
+            # but not under the Roundup Action
             _logger.info('🫣  Got a %r error, so doing /usr/local/bin/sphinx-build', ex)
             _logger.info('🥸 by the way here is what is in the venv bin')
             invoke(['ls', '-l', '/github/workspace/venv/bin'])
-            _logger.info('🥸 GOT THAT?')
+            _logger.info('🥸 GOT THAT? Now onto /usr/local/bin/sphinx-build')
             try:
                 invoke(['/usr/local/bin/sphinx-build', '--version'])
                 invoke(['/usr/local/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
