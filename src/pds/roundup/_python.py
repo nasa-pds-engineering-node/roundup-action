@@ -82,7 +82,7 @@ class _UnitTestStep(_PythonStep):
         tox = os.path.abspath(os.path.join(self.assembly.context.cwd, 'venv', 'bin', 'tox'))
         if os.path.isfile(tox):
             _logger.debug('Trying the new way: ``tox``')
-            invoke([tox, '-e', 'py39'])  # ``py39`` = unit tests
+            invoke([tox])
         else:
             _logger.debug('Trying the old way: ``setup.py test``')
             invoke(['python', 'setup.py', 'test'])
