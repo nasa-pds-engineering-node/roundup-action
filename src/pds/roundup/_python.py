@@ -103,8 +103,15 @@ class _DocsStep(_PythonStep):
             _logger.info('🫣  About to do `/github/workspace/venv/bin/sphinx-build`')
             invoke(['/github/workspace/venv/bin/sphinx-build', '--version'])
             invoke(['/github/workspace/venv/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
-        except InvokedProcessError as ex:
-            _logger.info('🫣  Got an InvokedProcessError %r, so doing /usr/local/bin/sphinx-build', ex)
+        except FileNotFoundError:
+            _logger.info('🤔 file not found, what do we have?')
+            invoke(['ls', '-l', '/github/workspace/venv/bin'])
+            raise
+        except (InvokedProcessError, FileNotFoundError) as ex:
+            _logger.info('🫣  Got a %r error, so doing /usr/local/bin/sphinx-build', ex)
+            _logger.info('🥸 by the way here is what is in the venv bin')
+            invoke(['ls', '-l', '/github/workspace/venv/bin'])
+            _logger.info('🥸 GOT THAT?')
             try:
                 invoke(['/usr/local/bin/sphinx-build', '--version'])
                 invoke(['/usr/local/bin/sphinx-build', '-a', '-b', 'html', 'docs/source', 'docs/build'])
