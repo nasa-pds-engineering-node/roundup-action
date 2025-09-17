@@ -38,7 +38,7 @@ RUN : &&\
     : Normally we would use lasso.releasers~=${lasso_releasers} but we are transitioning Python 3.13 &&\
     : should be → /usr/src/rel/bin/pip install --quiet lasso.releasers~=${lasso_releasers} ← &&\
     : so do this for now: &&\
-    /usr/src/rel/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-releasers.git@python3.13 &&\
+    /usr/src/rel/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-releasers.git@log-errors-and-ensure-assets &&\
     ln -s /usr/src/rel/bin/maven-release /usr/local/bin &&\
     ln -s /usr/src/rel/bin/nodejs-release /usr/local/bin &&\
     ln -s /usr/src/rel/bin/python-release /usr/local/bin &&\
