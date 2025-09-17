@@ -254,16 +254,17 @@ class _GitHubReleaseStep(_MavenStep):
 
 class _ArtifactPublicationStep(_MavenStep):
     def execute(self):
-        _logger.debug('❗️ Before I run `mvn deploy`, here is what the pom.xml looks like as far as <version>')
-        with open('pom.xml', 'r') as f:
-            for 𝐋 in f:
-                if 'version' in 𝐋: _logger.debug(f'“{𝐋.strip()}”')
-        if self.assembly.isStable():
-            args = ['--errors', '--activate-profiles', 'release']
-            args.extend(self.assembly.context.args.maven_stable_artifact_phases.split(','))
-            self.invokeMaven(args)
-        else:
-            self.invokeMaven(self.assembly.context.args.maven_unstable_artifact_phases.split(','))
+        _logger.info('🐇 Skipping Maven artifact publication step')
+        # _logger.debug('❗️ Before I run `mvn deploy`, here is what the pom.xml looks like as far as <version>')
+        # with open('pom.xml', 'r') as f:
+        #     for 𝐋 in f:
+        #         if 'version' in 𝐋: _logger.debug(f'“{𝐋.strip()}”')
+        # if self.assembly.isStable():
+        #     args = ['--errors', '--activate-profiles', 'release']
+        #     args.extend(self.assembly.context.args.maven_stable_artifact_phases.split(','))
+        #     self.invokeMaven(args)
+        # else:
+        #     self.invokeMaven(self.assembly.context.args.maven_unstable_artifact_phases.split(','))
 
 
 class _DocPublicationStep(DocPublicationStep):
