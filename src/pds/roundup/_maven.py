@@ -243,16 +243,14 @@ class _GitHubReleaseStep(_MavenStep):
             for 𝐋 in f:
                 if 'version' in 𝐋: _logger.debug(f'“{𝐋.strip()}”')
 
-        _logger.debug('‼️ Before I run maven-release, here is what is in the target directory')
-        invoke(['ls', '-l', 'target'])
-
-        self._prune_dev_tags()
-        if not self.assembly.isStable():
-            invoke(['maven-release', '--snapshot', '--token', token])
-            self._prune_release_tags()
-        else:  # it's stable release
-            self._tag_release()
-            invoke(['maven-release', '--token', token])
+        _logger.debug('🔬 EXPERIMENT: do nothing else')
+        # self._prune_dev_tags()
+        # if not self.assembly.isStable():
+        #     invoke(['maven-release', '--snapshot', '--token', token])
+        #     self._prune_release_tags()
+        # else:  # it's stable release
+        #     self._tag_release()
+        #     invoke(['maven-release', '--token', token])
 
 
 class _ArtifactPublicationStep(_MavenStep):
