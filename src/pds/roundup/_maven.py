@@ -243,8 +243,8 @@ class _GitHubReleaseStep(_MavenStep):
             for 𝐋 in f:
                 if 'version' in 𝐋: _logger.debug(f'“{𝐋.strip()}”')
 
-        _logger.debug('🔬 EXPERIMENT: do nothing else')
-        # self._prune_dev_tags()
+        _logger.debug('🔬 EXPERIMENT 2: prune dev tags')
+        self._prune_dev_tags()
         # if not self.assembly.isStable():
         #     invoke(['maven-release', '--snapshot', '--token', token])
         #     self._prune_release_tags()
