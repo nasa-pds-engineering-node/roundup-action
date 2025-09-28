@@ -48,11 +48,13 @@ RUN : &&\
     python3 -m venv /usr/src/req &&\
     /usr/src/req/bin/pip install --quiet --upgrade pip &&\
     /usr/src/req/bin/pip install --quiet lasso-requirements~=${lasso_requirements} &&\
+    /usr/src/req/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-requirements.git@python3.13 &&\
     ln -s /usr/src/req/bin/requirement-report /usr/local/bin &&\
     : &&\
     : Now lasso.issues &&\
     python3 -m venv /usr/src/iss &&\
     /usr/src/iss/bin/pip install --quiet lasso.issues~=${lasso_issues} &&\
+    /usr/src/iss/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-issues.git@python3.13 &&\
     ln -s /usr/src/iss/bin/add-version-label-to-open-bugs /usr/local/bin &&\
     ln -s /usr/src/iss/bin/milestones /usr/local/bin &&\
     ln -s /usr/src/iss/bin/move-issues /usr/local/bin &&\
