@@ -4,7 +4,7 @@
 # Note: the github-actions-base image's `stable` tag should eventually be
 # on Python 3.13, but for now the image tagged `python3.13` will do fine.
 
-FROM nasapds/github-actions-base:python3.13
+FROM nasapds/github-actions-base:no-sphinx
 
 
 # Metadata
@@ -47,6 +47,8 @@ RUN : &&\
     : Next, lasso.requirements &&\
     python3 -m venv /usr/src/req &&\
     /usr/src/req/bin/pip install --quiet --upgrade pip &&\
+    : The lasso-requirements-1.1.0 in PyPI has bug in that it treats Python releases with Java -SNAPSHOT versions &&\
+    : So we will use the tagged version from GitHub for now &&\
     : /usr/src/req/bin/pip install --quiet lasso-requirements~=${lasso_requirements} &&\
     /usr/src/req/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-requirements.git@python3.13 &&\
     ln -s /usr/src/req/bin/requirement-report /usr/local/bin &&\
