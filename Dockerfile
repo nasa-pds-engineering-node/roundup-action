@@ -47,7 +47,8 @@ RUN : &&\
     : Next, lasso.requirements &&\
     python3 -m venv /usr/src/req &&\
     /usr/src/req/bin/pip install --quiet --upgrade pip &&\
-    /usr/src/req/bin/pip install --quiet lasso-requirements~=${lasso_requirements} &&\
+    : /usr/src/req/bin/pip install --quiet lasso-requirements~=${lasso_requirements} &&\
+    /usr/src/req/bin/pip install --quiet git+https://github.com/NASA-pds/lasso-requirements.git@python3.13 &&\
     ln -s /usr/src/req/bin/requirement-report /usr/local/bin &&\
     : &&\
     : Now lasso.issues &&\
