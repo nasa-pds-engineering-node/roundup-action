@@ -4,7 +4,7 @@
 
 from enum import Enum
 from .errors import InvokedProcessError
-from .util import git_pull, commit, invoke, invokeGIT, findNextMicro, TAG_RE
+from .util import git_pull, commit, invoke, invokeGIT, findNextMicro, TAG_RE, VERSION_RE, get_default_branch
 import logging, github3, tempfile, zipfile, os
 
 _logger = logging.getLogger(__name__)
@@ -39,6 +39,12 @@ class Step(object):
         # Should this be main always for stable roundups? No this breaks requirements step for python builds.
         # ref_name = 'main' if self.assembly.isStable() else self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
         ref_name = self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
+        # If GITHUB_REF_NAME is a tag (e.g., "release/3.23.0" or "v1.2.3"), determine the default branch
+        # since git_pull() needs a branch reference, not a tag
+        if TAG_RE.match(ref_name) or VERSION_RE.match(ref_name):
+            default_branch = get_default_branch()
+            _logger.debug('🔖 GITHUB_REF_NAME "%s" appears to be a tag; using default branch "%s" instead', ref_name, default_branch)
+            return default_branch
         return ref_name
 
 
