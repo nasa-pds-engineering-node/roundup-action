@@ -121,16 +121,15 @@ def git_config():
     invokeGIT(['config', '--local', 'user.name', 'PDSEN CI Bot'])
 
 
-def git_pull():
+def git_pull(branch_ref_name='main'):
     # 😮 TODO: Use Python GitHub API
     # But I'm in a rush:
     git_config()
     # NASA-PDS/roundup-action#160 — pull from the named branch reference
-    branch_ref_name = os.environ.get('GITHUB_REF_NAME', 'main')
     invokeGIT(['pull', 'origin', branch_ref_name])
 
 
-def commit(filename, message):
+def commit(filename, message, branch_ref_name='main'):
     '''Commit the file named ``filename`` to the local Git repository with the given ``message``.
     '''
     _logger.debug('🥼 Committing file %s with message «%s»', filename, message)
@@ -145,13 +144,10 @@ def commit(filename, message):
     # @nutjob4life maintains that a `git pull` at this point would result in `Already up
     # to date` but we all guess it wouldn't hurt.
 
-    # NASA-PDS/roundup-action#160 — push to the named branch reference
-    branch_ref_name = os.environ.get('GITHUB_REF_NAME', 'main')
-
     try:
         _logger.info('WTF')
         invokeGIT(['branch'])
-        invokeGIT(['pull', '--quiet', '--no-edit', '--no-stat'])
+        invokeGIT(['pull', '--quiet', '--no-edit', '--no-stat', branch_ref_name])
     except InvokedProcessError:
         _logger.info('🔁 Pull before push to HEAD:%s failed but pressing on', branch_ref_name)
         pass

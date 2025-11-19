@@ -36,7 +36,8 @@ class Step(object):
 
     def get_branch_ref(self):
         '''Utility: get the name of the branch reference for the repository being rounded up'''
-        return self.assembly.context.environ.get('GITHUB_REF_NAME')
+        ref_name = 'main' if self.assembly.isStable() else self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
+        return ref_name
 
 
 class StepName(Enum):
@@ -118,7 +119,7 @@ class ChangeLogStep(Step):
         if not token:
             _logger.info('🤷‍♀️ No GitHub administrative token; cannot generate changelog')
             return
-        git_pull()
+        git_pull(self.get_branch_ref())
         invoke([
             'github_changelog_generator',
             '--user',
@@ -145,7 +146,7 @@ class ChangeLogStep(Step):
             # to this:
             's.critical,s.high,s.low,s.medium'
         ])
-        commit('CHANGELOG.md', 'Update changelog')
+        commit('CHANGELOG.md', 'Update changelog', self.get_branch_ref())
 
 
 class RequirementsStep(Step):
@@ -155,7 +156,7 @@ class RequirementsStep(Step):
         if not token:
             _logger.info('🤷‍♀️ No GitHub administrative token; cannot generate requirements')
             return
-        git_pull()
+        git_pull(self.get_branch_ref())
         argv = [
             'requirement-report',
             '--format',
@@ -175,7 +176,7 @@ class RequirementsStep(Step):
         if not generatedFile:
             _logger.warn('🤨 Did not get a requirements file from the requirement-report; will skip it')
             return
-        commit(generatedFile, 'Update requirements')
+        commit(generatedFile, 'Update requirements', self.get_branch_ref())
 
 
 class DocPublicationStep(Step):
