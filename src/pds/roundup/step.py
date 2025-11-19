@@ -36,7 +36,9 @@ class Step(object):
 
     def get_branch_ref(self):
         '''Utility: get the name of the branch reference for the repository being rounded up'''
-        ref_name = 'main' if self.assembly.isStable() else self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
+        # Should this be main always for stable roundups? No this breaks requirements step for python builds.
+        # ref_name = 'main' if self.assembly.isStable() else self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
+        ref_name = self.assembly.context.environ.get('GITHUB_REF_NAME', 'main')
         return ref_name
 
 
